@@ -65,11 +65,11 @@ for source in os.listdir(path_BH):
 for source in os.listdir(path_NS):
     for observation in os.listdir(path_NS+source):
         energy_spectrum = os.listdir('*.asc')
-        temp_df=pd.read_fwf(path_NS+observation+'/pca/'+energy_spectrum,skiprows=12$
-                            temp_df=rebin_PS(temp_df, bin_factor)
+        temp_df=pd.read_fwf(path_NS+observation+'/pca/'+energy_spectrum,skiprows=12, names=('freq','power','error'))
+        temp_df=rebin_PS(temp_df, bin_factor)
         temp_df['BH?']=0
 
-    data=pd.concat((data , temp_df), axis = 0,ignore_index=True)
+        data=pd.concat((data , temp_df), axis = 0,ignore_index=True)
 
 
 x = data[['freq','power']]
