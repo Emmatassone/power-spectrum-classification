@@ -51,15 +51,26 @@ data=pd.DataFrame(variables)
 
 bin_factor=30
 
-for observation in os.listdir('Observations'):
-    temp_df=pd.read_fwf(path_dataset+'/'+observation,skiprows=12, names=('freq','power','error'))
-    temp_df=rebin_PS(temp_df, bin_factor)
-    if observation!='95324-01-02-00_FS4f_E_125.asc':
+path_BH = '/data_test/BH/'
+path_NS = '/data_test/NS/'
+for source in os.listdir(path_BH):
+    for observation in os.listdir(path_BH+source):
+	energy_spectrum = os.listdir('*.asc')
+        temp_df=pd.read_fwf(path_BH+observation+'/pca/'+energy_spectrum,skiprows=12, names=('freq','power','error'))
+        temp_df=rebin_PS(temp_df, bin_factor)
         temp_df['BH?']=1
-    else:
+
+        data=pd.concat((data , temp_df), axis = 0,ignore_index=True)
+
+for source in os.listdir(path_NS):
+    for observation in os.listdir(path_NS+source):
+        energy_spectrum = os.listdir('*.asc')
+        temp_df=pd.read_fwf(path_NS+observation+'/pca/'+energy_spectrum,skiprows=12$
+                            temp_df=rebin_PS(temp_df, bin_factor)
         temp_df['BH?']=0
-    
+
     data=pd.concat((data , temp_df), axis = 0,ignore_index=True)
+
 
 x = data[['freq','power']]
 y = data[['BH?']]
