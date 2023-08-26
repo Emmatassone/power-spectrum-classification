@@ -1,26 +1,12 @@
-""" ***************************************************************************
-# * File Description:                                                         *
-# * Workflow for model building                                               *
-# * --------------------------------------------------------------------------*
-# * AUTHORS(S): Frank Ceballos <frank.ceballos89@gmail.com>                   *
-# * --------------------------------------------------------------------------*
-# * DATE CREATED: June 26, 2019                                               *
-# * --------------------------------------------------------------------------*
-# * NOTES: None                                                               *
-# * ************************************************************************"""
-
 ###############################################################################
 #                          1. Importing Libraries                             #
 ###############################################################################
-# Visual bar for data generation
-from tqdm.notebook import tqdm
+#from tqdm.notebook import tqdm
 import pickle
-import os
-
 # For reading, visualizing, and preprocessing data
 import numpy as np
 import pandas as pd
-import seaborn as sns
+#import seaborn as sns
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 from sklearn.datasets import make_classification
@@ -28,56 +14,30 @@ from sklearn.feature_selection import RFE, RFECV
 from sklearn.model_selection import train_test_split, GridSearchCV, KFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
-
 # Metrics
 from sklearn import metrics
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_squared_error
-
 # Classifiers
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
+from preprocessing import Preprocessing
 
-#Binning function
-def rebin_PS(df,bin_factor):
-    # Calculate the averages for each bin
-    rebinned_df= df.groupby(df.index // bin_factor).mean()
-    return rebinned_df
+path_BH = './data_test/BH/'
+path_NS = './data_test/NS/'
+BH_powerspectra=Preprocessing.collect_all_powerspectra(path_BH, bin_factor=30, BH=True)
+NS_powerspectra=Preprocessing.collect_all_powerspectra(path_NS, bin_factor=30, BH=False)
 
-path_dataset='Observations'
-variables={'freq':[],'power':[],'error':[],'BH?':[]}
-data=pd.DataFrame(variables)
-
-bin_factor=30
-
-path_BH = '/data_test/BH/'
-path_NS = '/data_test/NS/'
-for source in os.listdir(path_BH):
-    for observation in os.listdir(path_BH+source):
-	energy_spectrum = os.listdir('*.asc')
-        temp_df=pd.read_fwf(path_BH+observation+'/pca/'+energy_spectrum,skiprows=12, names=('freq','power','error'))
-        temp_df=rebin_PS(temp_df, bin_factor)
-        temp_df['BH?']=1
-
-        data=pd.concat((data , temp_df), axis = 0,ignore_index=True)
-
-for source in os.listdir(path_NS):
-    for observation in os.listdir(path_NS+source):
-        energy_spectrum = os.listdir('*.asc')
-        temp_df=pd.read_fwf(path_NS+observation+'/pca/'+energy_spectrum,skiprows=12, names=('freq','power','error'))
-        temp_df=rebin_PS(temp_df, bin_factor)
-        temp_df['BH?']=0
-
-        data=pd.concat((data , temp_df), axis = 0,ignore_index=True)
-
-
+data_array=np.vstack([BH_powerspectra,NS_powerspectra])
+data=pd.DataFrame(data_array,columns=['freq','power','error','BH?'])
+############################################################################################
 x = data[['freq','power']]
 y = data[['BH?']]
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.20, random_state = 1000)
 
 ###############################################################################
-#                               4. Classifiers                                #
+#                               2. Classifiers                                #
 ###############################################################################
 # Create list of tuples with classifier label and classifier object
 classifiers = {}
@@ -86,7 +46,7 @@ classifiers.update({"K-Nearest Neighbors": KNeighborsClassifier()})
 classifiers.update({"Naives Bayes": GaussianNB()})
 
 ###############################################################################
-#                             5. Hyper-parameters                             #
+#                             3. Hyper-parameters                             #
 ###############################################################################
 # Initiate parameter grid
 parameters = {}
@@ -115,7 +75,7 @@ parameters.update({"Random Forest": {
 
 
 ###############################################################################
-#                       13. Classifier Tuning and Evaluation                  #
+#                       4. Classifier Tuning and Evaluation                  #
 ###############################################################################
 # Initialize dictionary to store results
 results = {}
@@ -178,7 +138,7 @@ for classifier_label, classifier in classifiers.items():
 print("Complete!")
 
 ###############################################################################
-#                              14. Visualing Results                          #
+#                              5. Visualing Results                          #
 ###############################################################################
 # Initialize auc_score dictionary
 auc_scores = {
