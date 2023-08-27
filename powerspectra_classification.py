@@ -84,7 +84,9 @@ results = {}
 # Tune and evaluate classifiers
 for classifier_label, classifier in classifiers.items():
     # Print message to user
-    print(f"Now tuning {classifier_label}.")
+#    print(f"Now tuning {classifier_label}.")
+    print("Now tuning {}.".format(classifier_label))   # I added this line
+
     
     try:
         # Scale features via Z-score normalization
@@ -225,7 +227,8 @@ for classifier_label in results:
                        "MSE": [results[classifier_label]["Test MSE"]] + mse_scores["MSE"]})
 # Best MSE scores found for the models
 for model, mse in zip(mse_scores["Classifier"], mse_scores["MSE"]):
-    print(f"{model:20}: {mse}")
+#    print(f"{model:20}: {mse}")
+    print("{:20}: {}".format(model, mse))   # I added this line
 
 # Using best found parameters for Random Forest, refit the model to the training data
 best_rf_params = dict()
