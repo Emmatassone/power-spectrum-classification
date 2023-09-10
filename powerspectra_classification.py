@@ -6,7 +6,7 @@ import pickle
 # For reading, visualizing, and preprocessing data
 import numpy as np
 import pandas as pd
-#import seaborn as sns
+import seaborn as sns
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 from sklearn.datasets import make_classification
@@ -26,8 +26,11 @@ from preprocessing import Preprocessing
 
 path_BH = './data_test/BH/'
 path_NS = './data_test/NS/'
-BH_powerspectra=Preprocessing.collect_all_powerspectra(path_BH, bin_factor=30, BH=True)
-NS_powerspectra=Preprocessing.collect_all_powerspectra(path_NS, bin_factor=30, BH=False)
+preprocessor = Preprocessing() 
+BH_powerspectra = preprocessor.collect_all_powerspectra(path_BH, bin_factor=30, BH=True)
+NS_powerspectra = preprocessor.collect_all_powerspectra(path_NS, bin_factor=30, BH=True)
+#BH_powerspectra=Preprocessing.collect_all_powerspectra(path_BH, bin_factor=30, BH=True)
+#NS_powerspectra=Preprocessing.collect_all_powerspectra(path_NS, bin_factor=30, BH=False)
 
 data_array=np.vstack([BH_powerspectra,NS_powerspectra])
 data=pd.DataFrame(data_array,columns=['freq','power','error','BH?'])
@@ -85,8 +88,7 @@ results = {}
 for classifier_label, classifier in classifiers.items():
     # Print message to user
 #    print(f"Now tuning {classifier_label}.")
-    print("Now tuning {}.".format(classifier_label))   # I added this line
-
+    print("Now tuning {}.".format(classifier_label))
     
     try:
         # Scale features via Z-score normalization
@@ -227,8 +229,8 @@ for classifier_label in results:
                        "MSE": [results[classifier_label]["Test MSE"]] + mse_scores["MSE"]})
 # Best MSE scores found for the models
 for model, mse in zip(mse_scores["Classifier"], mse_scores["MSE"]):
+    print("{:20}: {}".format(model, mse))
 #    print(f"{model:20}: {mse}")
-    print("{:20}: {}".format(model, mse))   # I added this line
 
 # Using best found parameters for Random Forest, refit the model to the training data
 best_rf_params = dict()
