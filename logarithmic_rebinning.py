@@ -6,7 +6,7 @@ import pandas as pd
 from stingray import Powerspectrum
 
 #############################################################################
-#                   1st way of logarithmic rebinning                        #
+#                     Logarithmic rebinning                                 #
 #############################################################################
 
 # Define the path to your ASCII file
@@ -21,46 +21,52 @@ power = data[:-1, 1]
 errors = data[:-1, 2]
 
 # Define the rebinning factor for logarithmic rebinning
-log_rebinning_factor = 1.1
-
-# Calculate the new frequency bins logarithmically
-new_frequency_bins = [frequency[0]]
-while new_frequency_bins[-1] < frequency[-1]:
-    new_frequency_bins.append(new_frequency_bins[-1] * log_rebinning_factor)
-
-# Convert the list of new frequency bins to a numpy array
-new_frequency_bins = np.array(new_frequency_bins)
-
-# Calculate the corresponding bin widths
-bin_widths = new_frequency_bins[1:] - new_frequency_bins[:-1]
+log_rebinning_factor = 30
 
 # Initialise arrays to store re-binned frequency and power values
-num_new_bins = len(new_frequency_bins) - 1
-rebinned_frequency = np.zeros(num_new_bins)
-rebinned_power = np.zeros(num_new_bins)
-rebinned_errors = np.zeros(num_new_bins)
+rebinned_frequency = []
+rebinned_power = []
+rebinned_errors = []
 
-# Iterate through the new frequency bins and calculate the re-binned power values
-for i in range(num_new_bins):
-    bin_start = new_frequency_bins[i]
-    bin_end = new_frequency_bins[i + 1]
+# Initialise variables to keep track of the current bin
+bin_start = frequency[0]
+bin_end = bin_start * 10**(1 / log_rebinning_factor)
+bin_power_sum = 0
+bin_error_sum = 0
+num_frequencies_in_bin = 0
 
-    # Select power values within the current bin
-    values_in_bin = power[(frequency >= bin_start) & (frequency < bin_end)]
-    errors_in_bin = errors[(frequency >= bin_start) & (frequency < bin_end)]
+# Iterate through the frequency values and calculate the re-binned power values
+for i in range(len(frequency)):
+    if frequency[i] <= bin_end:
+        # Add the power to the current bin
+        bin_power_sum += power[i]
+        bin_error_sum += errors[i]**2  # Sum of squared errors (to be divided by num_frequencies_in_bin later)
+        num_frequencies_in_bin += 1
+    else:
+        # Calculate the average power for the current bin
+        if num_frequencies_in_bin > 0:
+            avg_power = bin_power_sum / num_frequencies_in_bin
+            avg_error = np.sqrt(bin_error_sum) / num_frequencies_in_bin  # Propagate the error correctly
+            rebinned_frequency.append((bin_start + bin_end) / 2)
+            rebinned_power.append(avg_power)
+            rebinned_errors.append(avg_error)
 
-    # Calculate the weighted mean power value within the bin
-    weighted_mean_power = np.sum(values_in_bin / (errors_in_bin ** 2)) / np.sum(1 / (errors_in_bin ** 2))
+        # Move to the next bin
+        bin_start = bin_end
+        bin_end = bin_start * 10**(1 / log_rebinning_factor)
+        bin_power_sum = 0
+        bin_error_sum = 0
+        num_frequencies_in_bin = 0
 
-    # Calculate the weighted mean error within the bin
-    weighted_mean_error = 1 / np.sqrt(np.sum(1 / (errors_in_bin ** 2)))
+# Handle the last bin if it is not complete
+if num_frequencies_in_bin > 0:
+    avg_power = bin_power_sum / num_frequencies_in_bin
+    avg_error = np.sqrt(bin_error_sum) / num_frequencies_in_bin  # Propagate the error correctly
+    rebinned_frequency.append((bin_start + bin_end) / 2)
+    rebinned_power.append(avg_power)
+    rebinned_errors.append(avg_error)
 
-    # Store the corresponding frequency value
-    rebinned_frequency[i] = (bin_start + bin_end) / 2
-    rebinned_power[i] = weighted_mean_power
-    rebinned_errors[i] = weighted_mean_error
-
-# Now, rebinned_frequency, rebinned_power, and rebinned_errors contain the logarithmically re-binned data.
+# Now, rebinned_frequency and rebinned_power contain the logarithmically re-binned data.
 
 # Save the re-binned data in a file
 # Define the output file path
@@ -73,7 +79,7 @@ rebinned_data.append(header_row)
 
 whitespaces = 3
 # Append the rebinned data to the list
-for i in range(num_new_bins):
+for i in range(len(rebinned_frequency)):
     rebinned_data.append([f"{' ' * whitespaces}{rebinned_frequency[i]}", rebinned_power[i], rebinned_errors[i]])
 
 # Calculate the maximum width for each column
