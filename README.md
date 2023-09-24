@@ -74,7 +74,7 @@ power-spectrum-classification is a project focused on finding market inefficienc
 
 The bots are build in python, with the help of the following libraries.
 
-* [![vectorbt][vectorbt-image]][vectorbt-url]
+* [![scikit-learn][scikit-learn-image]][scikit-learn-url]
 
 
 
@@ -180,5 +180,5 @@ A special thanks should be done to the following open-source projects.
 [issues-url]: https://github.com/Emmatassone/power-spectrum-classification/issues
 [license-shield]: https://img.shields.io/github/license/Emmatassone/power-spectrum-classification.svg?style=for-the-badge
 [license-url]: https://github.com/Emmatassone/power-spectrum-classification/blob/master/LICENSE
-[vectorbt-image]: https://vectorbt.dev/assets/logo/header.svg
-[vectorbt-url]: https://vectorbt.dev/
+[scikit-learn-image]: https://scikit-learn.org/stable/_static/scikit-learn-logo-small.png
+[scikit-learn-url]: https://scikit-learn.org/stable/
