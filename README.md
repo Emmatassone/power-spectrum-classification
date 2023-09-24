@@ -20,7 +20,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Emmatassone/power-spectrum-classification/README.md">
-    <img src="images/logo2.png" alt="Logo" width="300" height="300">
+    <img src="images/logo.png" alt="Logo" width="300" height="300">
   </a>
 
   <h3 align="center">Power-spectrum-classificator</h3>
