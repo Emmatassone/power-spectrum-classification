@@ -20,7 +20,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Emmatassone/power-spectrum-classification/README.md">
-    <img src="images/logo.png" alt="Logo" width="300" height="300">
+    <img src="images/logo2.png" alt="Logo" width="300" height="300">
   </a>
 
   <h3 align="center">Power-spectrum-classificator</h3>
@@ -110,8 +110,11 @@ This is an example of how to list things you need to use the software and how to
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Add strategy book
-- [ ] Add backtester
+- [ ] Add Sources
+  - [ ] Black Holes
+  - [ ] Neutron Stars
+  - [ ] Galaxies
+- [ ] Add Neural Network
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
