@@ -159,10 +159,8 @@ Project Link: [https://github.com/Emmatassone/power-spectrum-classification](htt
 
 A special thanks should be done to the following open-source projects.
 
-* [Choose an Open Source License](https://choosealicense.com)
 * [Img Shields](https://shields.io)
 * [GitHub Pages](https://pages.github.com)
-* [OpenBB Terminal](https://my.openbb.co/app/terminal)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
