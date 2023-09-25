@@ -63,7 +63,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-power-spectrum-classification is a project focused on finding market inefficiencies, build strategies to outperform the market and bots that are helpful for traders on a daily basis.
+power-spectrum-classification is a project focused on automating the classification of power spectra sources.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -72,7 +72,7 @@ power-spectrum-classification is a project focused on finding market inefficienc
 
 ### Built With
 
-The bots are build in python, with the help of the following libraries.
+The project is built with python, with the help of the following libraries.
 
 * [![scikit-learn][scikit-learn-image]][scikit-learn-url]
 
@@ -85,7 +85,7 @@ The bots are build in python, with the help of the following libraries.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To pick a trading strategy and backtest run the following.
+To classificate a new source or observation, the observation file (.asc) should be placed in To_classify folder.
 
 ### Prerequisites
 
@@ -98,9 +98,6 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-- Backtesting a simple strategy
-- Building strategies with ML
-- Looking for arbitrage opportunities
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
