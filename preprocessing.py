@@ -6,10 +6,12 @@ class Preprocessing:
         pass
     # Binning function
     def rebin_file(self, file_path, rebinning_factor=100):
+        # Ensure file_path is a string
+        if isinstance(file_path, np.ndarray):
+            file_path = file_path[0]  # Assuming it's the first element of the array
     
         # Read the ASCII file, skipping the first 12 rows
-        data = np.loadtxt(file_path, skiprows=12, delimiter=None, usecols=(0, 1, 2))
-#        data = np.genfromtxt(file_path, skip_header=12, delimiter=None, usecols=(0, 1, 2))
+        data = np.genfromtxt(file_path, skip_header=12, delimiter=None, usecols=(0, 1, 2))
 
         # Read the frequency and the power values
         frequency = data[:-1, 0]
@@ -25,7 +27,6 @@ class Preprocessing:
         # Create the new frequency bins
         new_frequency_bins = np.arange(min(frequency), max(frequency) + new_bin_width, new_bin_width)
         num_new_bins = len(new_frequency_bins)
-        # np.arange(...) generates a sequence of values starting from the minimum frequency value, increasing by the new_bin_width, and stopping at or just beyond the maximum frequency value. The + new_bin_width is included to ensure that the upper boundary of the last bin covers the maximum frequency value. As a result, new_frequency_bins is an array that contains the boundaries of the new frequency bins, and num_new_bins stores the total number of these new bins.
         
         # Initialise arrays to store re-binned frequency and power values
         rebinned_frequency = np.zeros(num_new_bins)
@@ -56,8 +57,7 @@ class Preprocessing:
             rebinned_errors[i] = weighted_mean_error
             
             rebinned_data = np.column_stack((rebinned_frequency, rebinned_power, rebinned_errors))
-#            output_file = file_path.split("/")[-1] + ".rebinned" + rebinning_factor
-            output_file = "output.asc" + ".rebinned" + rebinning_factor
+            output_file = "output.asc.rebinned" + str(rebinning_factor)
             np.savetxt(output_file, rebinned_data, header="   Frequency     Power    Errors")
             
             return rebinned_data
@@ -74,10 +74,18 @@ class Preprocessing:
                     # List all .asc files in the observation_path
                     list_power_spectra = [file for file in os.listdir(observation_path) if file.endswith('.asc')]
                     # Iterate over each .asc file
-                    for spectrum_file in list_power_spectra:  
-                        tmp_spectrum_file = np.loadtxt(observation_path+spectrum_file, skiprows=12)
-                        # Rebin the powerspectra 
-                        tmp_spectrum_file = self.rebin_file(tmp_spectrum_file, bin_factor)
+                    for spectrum_file in list_power_spectra:
+                        # Construct the full file path
+                        file_path = os.path.join(observation_path, spectrum_file)
+
+                        # Load the data into tmp_spectrum_file
+                        tmp_spectrum_file = np.loadtxt(file_path, skiprows=12)
+#                        tmp_spectrum_file = np.loadtxt(observation_path+spectrum_file, skiprows=12)
+
+                        # Rebin the powerspectra using the file path
+                        rebinned_data = self.rebin_file(file_path, bin_factor)
+#                        tmp_spectrum_file = self.rebin_file(tmp_spectrum_file, bin_factor)
+
                         # Add a new target column to write down whether we have a BH or not
                         new_column = np.ones(tmp_spectrum_file.shape[0]) if BH else np.zeros(tmp_spectrum_file.shape[0])
                         new_column_reshaped = new_column.reshape(-1, 1)
