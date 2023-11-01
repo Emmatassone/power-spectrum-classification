@@ -32,8 +32,8 @@ class PlotValidationLoss(Callback):
         
 start_time = time.time()
 
-path_BH = './data_test/BH/'
-path_NS = './data_test/NS/'
+path_BH = os.path.join('data', 'BH')
+path_NS = os.path.join('data', 'NS')
 preprocessor = Preprocessing() 
 
 bin_factor=100
