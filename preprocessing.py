@@ -2,24 +2,59 @@ import numpy as np
 import os
 
 class Preprocessing:
-    def __init__(self): # -> None:
-        pass
-    # Binning function
-#    def rebin_PS(self,data, bin_factor):
-#        num_rows, num_cols = data.shape
-#        new_num_rows = num_rows // bin_factor
-
-        # Reshape the data for binning
-#        reshaped_data = data[:new_num_rows * bin_factor, :].reshape(new_num_rows, bin_factor, num_cols)
-
-        # Calculate the mean along the specified axis (axis=1)
-#        rebinned_data = np.mean(reshaped_data, axis=1)
-
-#        output_file = "output.asc.rebinned" + str(bin_factor)
-#        np.savetxt(output_file, rebinned_data, header="   Frequency     Power    Errors")
-#        return rebinned_data
+    def __init__(self):
+        self.powerspectra={}
     
-    def collect_all_powerspectra(self, object_path, bin_factor=1, BH=True):
+    def dictionary_collect(self, object_path, bin_factor=100, BH=True):
+        """
+        This function loads on the self.powerspectra dictionary the observations
+        in a BH or NS directory. 
+    
+        Parameters:
+        - object_path: directory where black holes or neutron star observations are located.
+        - bin_factor: specifies which binned files should be read.
+    
+        Returns:
+        None.
+        """
+        for source in os.listdir(object_path):
+            for observation in os.listdir(os.path.join(object_path,source)):
+                observation_path = os.path.join(object_path, source, observation, 'pca')
+
+                # Check if observation_path is a directory
+                if os.path.isdir(observation_path):
+
+                    # List all rebinned .asc files in the observation_path
+                    list_rebinned_PS = [file for file in os.listdir(observation_path) if file.endswith('.asc_' + str(bin_factor))]
+                    # Iterate over each .asc file
+                    for spectrum_file in list_rebinned_PS:
+                        self.powerspectra.update({spectrum_file:{
+                                                                'observation':[],
+                                                                'Type':[]
+                                                                    }})
+                        binned_powerspectra_file=os.path.join(observation_path, spectrum_file)
+                        tmp_spectrum_file = np.loadtxt(binned_powerspectra_file, skiprows=12)
+                        # Add a new target column to write down whether we have a BH or not
+                        self.powerspectra[spectrum_file]['Type'] = 1 if BH else 0
+                        self.powerspectra[spectrum_file]['observation'].append(tmp_spectrum_file)
+                    else:
+                        continue
+                else:
+                    continue
+        # Convert the list of result arrays into a single NumPy array
+        #return np.vstack(result_arrays_list)
+        return 
+    
+    def build_train_test_from_dict(self,):
+        x=[]
+        y=[]
+        for observation in self.powerspectra.keys():
+            x.append(self.powerspectra[observation]['observation'])
+            y.append(self.powerspectra[observation]['Type'])
+        return np.vstack(x),np.array(y)
+        
+    
+    def array_collect(self, object_path, bin_factor=100, BH=True):
         result_arrays_list = []
         for source in os.listdir(object_path):
             for observation in os.listdir(os.path.join(object_path,source)):
@@ -45,3 +80,4 @@ class Preprocessing:
                     continue
         # Convert the list of result arrays into a single NumPy array
         return np.vstack(result_arrays_list)
+        
