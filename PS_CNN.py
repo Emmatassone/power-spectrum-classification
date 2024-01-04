@@ -32,7 +32,9 @@ one_hot_test = keras.utils.to_categorical(y_test, num_classes = 2)
 np.random.shuffle(powerspectra)
 X_train = powerspectra[:,0:2]
 y_train = powerspectra[:,3]
-#X_res, y_res = ros.fit_resample(X_train, y_train)
+
+ros = RandomOverSampler(random_state=42)
+X_train, y_train = ros.fit_resample(X_train, y_train)
 
 one_hot_train = keras.utils.to_categorical(y_train, num_classes = 2)
 
