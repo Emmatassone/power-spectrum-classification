@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from models import jordi_CNN,nodes_CNN       
 import os
 from preprocessing import Preprocessing
+from imblearn.over_sampling import RandomOverSampler
 
 path_BH = os.path.join('data', 'BH')
 path_NS = os.path.join('data', 'NS')
@@ -18,6 +19,7 @@ bin_factor=10
 BH_powerspectra = preprocessor.array_collect(path_BH, bin_factor=bin_factor, BH=True)
 NS_powerspectra = preprocessor.array_collect(path_NS, bin_factor=bin_factor, BH=False)
 powerspectra=np.vstack((BH_powerspectra,NS_powerspectra))
+
 
 nodes=32768#powerspectra[:,:,0:2].shape[1]
 
@@ -30,6 +32,7 @@ one_hot_test = keras.utils.to_categorical(y_test, num_classes = 2)
 np.random.shuffle(powerspectra)
 X_train = powerspectra[:,0:2]
 y_train = powerspectra[:,3]
+#X_res, y_res = ros.fit_resample(X_train, y_train)
 
 one_hot_train = keras.utils.to_categorical(y_train, num_classes = 2)
 
@@ -44,5 +47,5 @@ model=jordi_CNN(X_train, one_hot_train.reshape((-1,2)), nodes)
 
 prediction = model.predict(X_test, batch_size=1)
 
-#test_loss, test_acc = model.evaluate(X_test, np.mean(one_hot_test.reshape(-1,nodes,2),axis=1), batch_size=1)
-test_loss, test_acc = model.evaluate(X_test, one_hot_test, batch_size=1)
+test_loss, test_acc = model.evaluate(X_test, np.mean(one_hot_test.reshape(-1,nodes,2),axis=1), batch_size=1)
+#test_loss, test_acc = model.evaluate(X_test, one_hot_test, batch_size=1)
