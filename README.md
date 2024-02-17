@@ -87,14 +87,6 @@ The project is built with python, with the help of the following libraries.
 
 To classificate a new source or observation, the observation file (.asc) should be placed in To_classify folder.
 
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
 <!-- USAGE EXAMPLES -->
 ## Usage
 
