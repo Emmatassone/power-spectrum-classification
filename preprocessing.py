@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import kymatio.numpy as kn
 
 class Preprocessing:
     def __init__(self):
@@ -80,4 +81,24 @@ class Preprocessing:
                     continue
         # Convert the list of result arrays into a single NumPy array
         return np.vstack(result_arrays_list)
+
+    
+def compute_transform(X, nodes):
+    n = int(np.log(nodes)/np.log(2))
+    
+    T=2**n
+    J = 3  # Number of scales
+    Q = 8  # Number of wavelets per octave
+
+
+    scattering = kn.Scattering1D(J,T,Q)
+    
+    meta = scattering.meta()
+    order0 = np.where(meta['order'] == 0)
+    order1 = np.where(meta['order'] == 1)
+    order2 = np.where(meta['order'] == 2)
+    
+    Sx = scattering(X)
+    
+    return Sx[order0][0],Sx[order1],Sx[order2]
         
