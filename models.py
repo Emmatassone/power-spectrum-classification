@@ -2,7 +2,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv1D, MaxPooling1D, Flatten, Dropout, Reshape
 from tensorflow.keras.callbacks import Callback
 import tensorflow as tf
-
+from tensorflow.keras.layers import LSTM
 
 def jordi_CNN(X_train, one_hot_train, nodes,epochs=10, batch_size=64,validation_split=0.05):
     model = Sequential([
@@ -41,6 +41,31 @@ def nodes_CNN(X_train, y_train, nodes,epochs=10, batch_size=64,validation_split=
     model.compile(optimizer=adam,
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
-    model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size,validation_split=validation_split, shuffle=True)
+    model.fit(X_train, y_train,
+              epochs=epochs,
+              batch_size=batch_size,
+              validation_split=validation_split,
+              shuffle=True)
     
     return model
+
+def Train_LSTM(X_train, y_train, X_val, y_val, X_test, y_test, time_steps, batch_size= 30, num_features = 1, epochs = 10):
+    # Model architecture
+    model = Sequential([
+        LSTM(units=64, input_shape=(time_steps, num_features)),
+        Dropout(0.2),
+        Dense(1, activation='sigmoid')
+    ])
+    
+    model.compile(loss='binary_crossentropy',
+                  optimizer='adam',
+                  metrics=['accuracy'])
+    
+    history = model.fit(X_train, y_train, 
+                        epochs = epochs, 
+                        batch_size = batch_size, 
+                        validation_data = (X_val, y_val))
+    
+    test_loss, test_acc = model.evaluate(X_test, y_test)
+    predictions = model.predict(X_test)
+    return  test_loss, test_acc, predictions
