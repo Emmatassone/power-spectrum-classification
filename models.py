@@ -69,22 +69,3 @@ def Train_LSTM(X_train, y_train, X_val, y_val, X_test, y_test, time_steps, batch
     test_loss, test_acc = model.evaluate(X_test, y_test)
     predictions = model.predict(X_test)
     return  test_loss, test_acc, predictions
-
-def compute_transform(X, nodes):
-    n = int(np.log(nodes)/np.log(2))
-    
-    T=2**n
-    J = 3  # Number of scales
-    Q = 8  # Number of wavelets per octave
-
-
-    scattering = kn.Scattering1D(J,T,Q)
-    
-    meta = scattering.meta()
-    order0 = np.where(meta['order'] == 0)
-    order1 = np.where(meta['order'] == 1)
-    order2 = np.where(meta['order'] == 2)
-    
-    Sx = scattering(X)
-    
-    return Sx[order0][0],Sx[order1],Sx[order2]
