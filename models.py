@@ -49,7 +49,7 @@ def nodes_CNN(X_train, y_train, nodes,epochs=10, batch_size=64,validation_split=
     
     return model
 
-def Train_LSTM(X_train, y_train, X_val, y_val, X_test, y_test, time_steps, batch_size= 30, num_features = 1, epochs = 10):
+def Train_LSTM(X_train, y_train, X_val, y_val, X_test, y_test, time_steps, batch_size= 5, num_features = 1, epochs = 10):
     # Model architecture
     model = Sequential([
         LSTM(units=64, input_shape=(time_steps, num_features)),
