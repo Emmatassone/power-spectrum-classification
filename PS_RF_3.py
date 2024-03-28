@@ -28,7 +28,7 @@ powerspectra=np.vstack((BH_powerspectra,NS_powerspectra))
 
 print("I'm here: Step 3!\n")
 
-X = powerspectra[:,0:3]  # Original: [:,0:2]
+X = powerspectra[:,0:2]
 y = powerspectra[:,3]
 
 print("I'm here: Step 4!\n")
@@ -41,8 +41,9 @@ rf_classifier = RandomForestClassifier(n_estimators=200,min_samples_leaf=20,min_
 print("I'm here: Step 5!\n")
 
 # Perform k-fold cross-validation
-kfold = KFold(n_splits=5, shuffle=True, random_state=42)
+kfold = KFold(n_splits=3, shuffle=True, random_state=42)
 mse_scores = []
+accuracy_scores = []
 for train_index, test_index in kfold.split(X):
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
@@ -56,17 +57,22 @@ for train_index, test_index in kfold.split(X):
     # Calculate and store the MSE
     mse = mean_squared_error(y_test, y_pred)
     mse_scores.append(mse)
+    accuracy = accuracy_score(y_test, y_pred)
+    accuracy_scores.append(accuracy)
 
 
 print("I'm here: Step 6!\n")
 
 # Calculate the average MSE across all folds
 average_mse = np.mean(mse_scores)
+average_accuracy = np.mean(accuracy_scores)
 
 print("I'm here: Step 7!\n")
 
 # Print the results
 print(f'Average Mean Squared Error (MSE) across all folds: {average_mse}')
+print()
+print(f'Average Accuracy across all folds: {average_accuracy}')
 
 i = 100
 print()
@@ -78,6 +84,7 @@ print()
 
 model_info = {'model': rf_classifier,
               'average_mse': str(average_mse),
+              'average_accuracy': str(average_accuracy),
               'rebin_factor':str(i),
               'reading_time': post_processing_time - start_time,
               'training_time':  time.time() - post_processing_time}
@@ -94,6 +101,7 @@ with open(output_file, "a") as file:
     # Append the results to the file
     file.write(f'Results for bin_factor = {i}\n\n')
     file.write(f'Average Mean Squared Error (MSE) across all folds: {average_mse}\n')
+    file.write(f'Average Accuracy across all folds: {average_accuracy}\n')
     file.write('_____________\n\n')
     
     # Make sure to close the file when you're done
