@@ -1,10 +1,9 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: "Machine Learning as a Complementary Tool for Low-Mass X-Ray Binaries Classification"
-version: "2.0.4"
-doi: "10.5281/zenodo.1234"
-date-released: "2017-12-18"
-url: "https://github.com/github-linguist/linguist"
+version: "1.0.0"
+date-released: "2024-08-10"
+url: "https://github.com/Emmatassone/power-spectrum-classification"
 license: "MIT"
 keywords:
   - "Machine Learning"
@@ -14,23 +13,3 @@ keywords:
   - "Random Forest"
   - "CNN"
   - "LSTM"
-authors:
-  - family-names: "Lisa"
-    given-names: "Mona"
-    orcid: "https://orcid.org/0000-0000-0000-0000"
-  - family-names: "Bot"
-    given-names: "Hew"
-    orcid: "https://orcid.org/0000-0000-0000-0000"
-preferred-citation:
-  type: article
-  authors:
-    - family-names: "Mancuso"
-      given-names: "G.C."
-    - family-names: "Tassone"
-      given-names: "E.A."
-  title: "Machine Learning as a Complementary Tool for Low-Mass X-Ray Binaries Classification"
-  version: "1.0.0"
-  date-released: "2024-08-10"
-  url: "https://github.com/Emmatassone/power-spectrum-classification"
-  doi: "10.0000/00000"
-  license: "MIT"
