@@ -1,34 +1,34 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 authors:
-- family-names: "Lisa"
-  given-names: "Mona"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-- family-names: "Bot"
-  given-names: "Hew"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-title: "Machine Learning as a complementary tool for low-mass X-ray binaries classification"
+  - family-names: "Lisa"
+    given-names: "Mona"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+  - family-names: "Bot"
+    given-names: "Hew"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+title: "Machine Learning as a Complementary Tool for Low-Mass X-Ray Binaries Classification"
 version: 2.0.4
-doi: 10.5281/zenodo.1234
-date-released: 2017-12-18
+doi: "10.5281/zenodo.1234"
+date-released: "2017-12-18"
 url: "https://github.com/github-linguist/linguist"
 preferred-citation:
   type: article
   authors:
-    - family-names: G.C.
-      given-names:  Mancuso
-    - family-names: E.A. 
-      given-names: Tassone
+    - family-names: "Mancuso"
+      given-names: "G.C."
+    - family-names: "Tassone"
+      given-names: "E.A."
   doi: "10.0000/00000"
-  version: 1.0.0
-  date-released: 2024-08-10
-  url: https://github.com/Emmatassone/power-spectrum-classification
-  license: MIT 
-  keywords:
-    - Machine Learning
-    - Astronomical Data
-    - Powerspectra
-    - Classification
-    - Random Forest
-    - CNN
-    - LSTM
+  version: "1.0.0"
+  date-released: "2024-08-10"
+  url: "https://github.com/Emmatassone/power-spectrum-classification"
+license: "MIT"
+keywords:
+  - "Machine Learning"
+  - "Astronomical Data"
+  - "Powerspectra"
+  - "Classification"
+  - "Random Forest"
+  - "CNN"
+  - "LSTM"
