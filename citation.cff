@@ -1,7 +1,15 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "Machine Learning as a Complementary Tool for Low-Mass X-Ray Binaries Classification"
-version: "1.0.0"
-date-released: "2024-08-10"
-url: "https://github.com/Emmatassone/power-spectrum-classification"
-license: "MIT"
+
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Mancuso"
+      given-names: "G.C."
+    - family-names: "Tassone"
+      given-names: "E.A."
+  title: "Machine Learning as a Complementary Tool for Low-Mass X-Ray Binaries Classification"
+  version: "1.0.0"
+  date-released: "2024-08-10"
+  url: "https://github.com/Emmatassone/power-spectrum-classification"
+  license: "MIT"
