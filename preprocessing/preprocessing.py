@@ -13,18 +13,18 @@ class Preprocessing:
         for source in os.listdir(object_path):
             for observation in os.listdir(os.path.join(object_path,source)):
                 observation_path = os.path.join(object_path, source, observation, 'pca')
-
                 # Check if observation_path is a directory
                 if os.path.isdir(observation_path):
-
+                    
                     # List all rebinned .asc files in the observation_path
                     list_rebinned_PS = [file for file in os.listdir(observation_path) if file.endswith('.asc_' + str(bin_factor))]
                     # Iterate over each .asc file
                     for spectrum_file in list_rebinned_PS:
                         binned_powerspectra_file=os.path.join(observation_path, spectrum_file)
-                        tmp_spectrum_file = np.loadtxt(binned_powerspectra_file, skiprows=12)
+                        tmp_spectrum_file = np.loadtxt(binned_powerspectra_file)#, skiprows=12
                         # Add a new target column to write down whether we have a BH or not
-                        new_column = np.ones(tmp_spectrum_file.shape[0]) if BH else np.zeros(tmp_spectrum_file.shape[0])
+                        self.nodes = tmp_spectrum_file.shape[0]
+                        new_column = np.ones(self.nodes) if BH else np.zeros(self.nodes)
                         new_column_reshaped = new_column.reshape(-1, 1)
                         result_array = np.hstack((tmp_spectrum_file, new_column_reshaped))
                         result_arrays_list.append(result_array)
@@ -45,8 +45,9 @@ class Preprocessing:
                                              BH = False
                                              )
         
+        
         powerspectra = np.vstack((BH_powerspectra,NS_powerspectra))
         self.shape = powerspectra.shape
-        
-        powerspectra=StandardScaler().fit_transform(powerspectra)
-        return powerspectra
+#        powerspectra_scaled = np.hstack([powerspectra[:, 0], StandardScaler().fit_transform(powerspectra[:, 1]), powerspectra[:, 3]])
+        print("Spectra succesfully collected")
+        return powerspectra.reshape(-1,self.nodes,4)
