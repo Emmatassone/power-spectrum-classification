@@ -29,16 +29,25 @@ def main():
     parser.add_argument('--batch_size', type=str, help='Batch size to use in the Neural Network Model')
     parser.add_argument('--epochs', type=str, help='Number of iterations to do in the Neural Network')
     parser.add_argument('--n_jobs', type=str, help='Number of threads to use in the RF training')
+    parser.add_argument('--n_estimators', type=str, help='Number of estimators in the RF')
+    parser.add_argument('--min_samples_leaf', type=str, help='Number of samples in the leaf node')
+    parser.add_argument('--min_samples_split', type=str, help='Number of samples in the split node')
 
     args = parser.parse_args()
     
     common_args = []
-    if args.batch_size:
+    if args.batch_size is not None:
         common_args.append(f'--batch_size={args.batch_size}')
-    if args.epochs:
+    if args.epochs is not None:
         common_args.append(f'--epochs={args.epochs}')
-    if args.n_jobs:
+    if args.n_jobs is not None:
         common_args.append(f'--n_jobs={args.n_jobs}')
+    if args.n_estimators is not None:
+        common_args.append(f'--n_estimators={args.n_estimators}')
+    if args.min_samples_leaf is not None:
+        common_args.append(f'--min_samples_leaf={args.min_samples_leaf}')
+    if args.min_samples_split is not None:
+        common_args.append(f'--min_samples_split={args.min_samples_split}')
         
     # Determine which model to run based on the flags
     if args.RNN:

@@ -35,7 +35,7 @@ class Preprocessing:
         # Convert the list of result arrays into a single NumPy array
         return np.vstack(result_arrays_list)
     
-    def collect_all_NS_BH_data(self, bin_factor=100):
+    def collect_all_NS_BH_data(self, bin_factor=100, table_format=False):
         BH_powerspectra = self.array_collect(self.path_BH, 
                                              bin_factor = bin_factor,
                                              BH = True
@@ -50,4 +50,7 @@ class Preprocessing:
         self.shape = powerspectra.shape
 #        powerspectra_scaled = np.hstack([powerspectra[:, 0], StandardScaler().fit_transform(powerspectra[:, 1]), powerspectra[:, 3]])
         print("Spectra succesfully collected")
-        return powerspectra.reshape(-1,self.nodes,4)
+        if table_format:
+            return powerspectra
+        else:
+            return powerspectra.reshape(-1,self.nodes,4)
