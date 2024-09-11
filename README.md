@@ -85,11 +85,25 @@ The project is built with python, with the help of the following libraries.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To classificate a new source or observation, the observation file (.asc) should be placed in To_classify folder.
+To classificate a new source or observation, the observation file (.asc) should be placed in data directory. The file should indicate the binning after the file extension (e.g., .asc_100 for rebin=100).
 
 <!-- USAGE EXAMPLES -->
-## Usage
-
+### Train the Random Forest Model 
+To train the Random Forest Model write in the terminal 
+```py
+python PSC.py --RF --n_estimators=N_ESTIMATORS min_samples_leaf=MIN_SAMPLES_LEAF min_samples_split=MIN_SAMPLES_SPLIT
+```
+where the optional arguments n_estimators, min_samples_leaf and min_samples_split are by default 200,20 and 50 respectively.
+### Train the Long Short Term Memory Model
+To train the Long Short Term Memory model write in the terminal 
+```py
+python PSC.py --RNN --batch_size=BATCH_SIZE --epochs=EPOCHS
+```
+### Train the Convolutional Neural Network Model
+Similary, to traub the CNN model 
+```py
+python PSC.py --CNN --batch_size=BATCH_SIZE --epochs=EPOCHS
+```
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
