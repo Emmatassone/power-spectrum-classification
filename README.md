@@ -104,7 +104,7 @@ Similary, to traub the CNN model
 ```py
 python PSC.py --CNN --batch_size=BATCH_SIZE --epochs=EPOCHS
 ```
-
+There are also intrinsic parameter of the models that have to be modified specifically in the function that builds the specific model. These function can be found at `models/models.py`.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
