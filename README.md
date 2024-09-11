@@ -83,7 +83,7 @@ The project is built with python, with the help of the following libraries.
 
 
 <!-- GETTING STARTED -->
-## Getting Started
+## Train your own model
 
 To classificate a new source or observation, the observation file (.asc) should be placed in data directory. The file should indicate the binning after the file extension (e.g., .asc_100 for rebin=100).
 
@@ -108,7 +108,7 @@ There are also intrinsic parameter of the models that have to be modified specif
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
+## Load a trained model 
 
 <!-- ROADMAP -->
 ## Roadmap
