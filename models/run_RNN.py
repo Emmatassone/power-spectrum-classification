@@ -40,20 +40,29 @@ def main():
     ps=np.copy(powerspectra)
     
     np.random.shuffle(powerspectra)
-    train_LSTM(
-                X_train = powerspectra[ : , :, 0:2 ], y_train = np.mean(powerspectra[ :, : , 2 ], axis=1).reshape(-1,1),
-                X_val = ps[ :NUM_FILES//2 , :, 0:2 ], y_val = np.mean(ps[ :NUM_FILES//2 , : , 2 ], axis=1).reshape(-1,1),
-                X_test = ps[ NUM_FILES//2: , :, 0:2 ], y_test =  np.mean( ps[ NUM_FILES//2:, : , 2 ], axis=1).reshape(-1,1),
-                time_steps=NODES,
-                batch_size= BATCH_SIZE,
-                num_features=NUM_FEATURES,
-                epochs= EPOCHS
-                )
+    _ , _ , test_accuracy = train_LSTM(
+                                                X_train = powerspectra[ : , :, 0:2 ], y_train = np.mean(powerspectra[ :, : , 2 ], axis=1).reshape(-1,1),
+                                                X_val = ps[ :NUM_FILES//2 , :, 0:2 ], y_val = np.mean(ps[ :NUM_FILES//2 , : , 2 ], axis=1).reshape(-1,1),
+                                                X_test = ps[ NUM_FILES//2: , :, 0:2 ], y_test =  np.mean( ps[ NUM_FILES//2:, : , 2 ], axis=1).reshape(-1,1),
+                                                time_steps = NODES,
+                                                batch_size = BATCH_SIZE,
+                                                num_features = NUM_FEATURES,
+                                                epochs = EPOCHS
+                                                )
     
     end_time = time.time()
     computing_time=(end_time - start_time)/3600
     print("Total time taken: {} hours".format(round(computing_time,2)))
     
+    accuracy_filename = './models/metrics/RNN_accuracies.txt'
+    with open(accuracy_filename, 'a') as f:
+        f.write(f"Accuracy on the test set: {test_accuracy:.4f}\n")
+        f.write(f"run timesteps number : {NODES}\n")
+        f.write(f"run feature number : {NUM_FEATURES}\n")
+        f.write(f"run batch size : {BATCH_SIZE}\n")
+        f.write(f"run epoch number: {EPOCHS}\n\n")
+    
+
 if __name__ == "__main__":
     main()
 

@@ -25,7 +25,7 @@ def model_predictions(model_path,X_new):
     # Evaluate the model on the test set
     return y_pred
 
-def train_CNN(X_train, y_train, X_val, y_val, epochs=6, batch_size=64):
+def train_CNN(X_train, y_train, X_val, y_val, X_test, y_test, epochs=6, batch_size=64, save_interval=2):
     model = Sequential([
         Conv1D(input_shape=(X_train.shape[1], X_train.shape[2]), filters=128,
                kernel_size=32,
@@ -41,13 +41,19 @@ def train_CNN(X_train, y_train, X_val, y_val, epochs=6, batch_size=64):
     model.compile(optimizer=adam,
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
+    
+    save_callback = SaveModelEveryNEpochs(save_interval=save_interval)
+
     model.fit(X_train, y_train,
             validation_data = (X_val, y_val),
             epochs=epochs,
-            batch_size=batch_size
+            batch_size=batch_size,
+            callbacks=[save_callback]
         )
-        
-    return model
+    
+    test_loss, test_acc = model.evaluate(X_test, y_test)
+    print("Test Set loss: ",test_loss,", Test Set accuracy: ", test_acc)
+    return model, test_loss, test_acc
 
 def train_LSTM(X_train, y_train, X_val, y_val, X_test, y_test,
                time_steps, batch_size=5, num_features=1, epochs=6, load=False,
@@ -81,7 +87,7 @@ def train_LSTM(X_train, y_train, X_val, y_val, X_test, y_test,
 
     test_loss, test_acc = model.evaluate(X_test, y_test)
     print("Test Set loss: ",test_loss,", Test Set accuracy: ", test_acc)
-    return model
+    return model, test_loss, test_acc
 
 def train_RF(X_train, y_train, X_val, y_val, X_test, y_test, batch_size=64, n_estimators=200, min_samples_leaf=20, min_samples_split=50, n_jobs=30):
     X_train=pd.DataFrame(X_train,columns=['freq','power'])
