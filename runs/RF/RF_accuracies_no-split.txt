@@ -1,0 +1,162 @@
+Accuracy on the test set: 0.9966
+run n_jobs : 30
+run n_estimators: 100
+run min_samples_leaf: 10
+run min_samples_split: 25
+
+Accuracy on the test set: 0.9967
+run n_jobs : 30
+run n_estimators: 200
+run min_samples_leaf: 10
+run min_samples_split: 25
+
+Accuracy on the test set: 0.9968
+run n_jobs : 30
+run n_estimators: 500
+run min_samples_leaf: 10
+run min_samples_split: 25
+
+Accuracy on the test set: 0.9999
+run n_jobs : 30
+run n_estimators: 500
+run min_samples_leaf: 50
+run min_samples_split: 100
+
+Accuracy on the test set: 0.9999
+run n_jobs : 30
+run n_estimators: 500
+run min_samples_leaf: 50
+run min_samples_split: 50
+
+Accuracy on the test set: 0.9999
+run n_jobs : 30
+run n_estimators: 500
+run min_samples_leaf: 50
+run min_samples_split: 25
+
+Accuracy on the test set: 0.9990
+run n_jobs : 30
+run n_estimators: 100
+run min_samples_leaf: 10
+run min_samples_split: 50
+
+Accuracy on the test set: 0.9998
+run n_jobs : 30
+run n_estimators: 100
+run min_samples_leaf: 10
+run min_samples_split: 100
+
+Accuracy on the test set: 0.9991
+run n_jobs : 30
+run n_estimators: 200
+run min_samples_leaf: 10
+run min_samples_split: 50
+
+Accuracy on the test set: 0.9998
+run n_jobs : 30
+run n_estimators: 200
+run min_samples_leaf: 10
+run min_samples_split: 100
+
+Accuracy on the test set: 0.9991
+run n_jobs : 30
+run n_estimators: 500
+run min_samples_leaf: 10
+run min_samples_split: 50
+
+Accuracy on the test set: 0.9998
+run n_jobs : 30
+run n_estimators: 500
+run min_samples_leaf: 10
+run min_samples_split: 100
+
+Accuracy on the test set: 0.9995
+run n_jobs : 30
+run n_estimators: 500
+run min_samples_leaf: 20
+run min_samples_split: 25
+
+Accuracy on the test set: 0.9996
+run n_jobs : 30
+run n_estimators: 500
+run min_samples_leaf: 20
+run min_samples_split: 50
+
+Accuracy on the test set: 0.9999
+run n_jobs : 30
+run n_estimators: 500
+run min_samples_leaf: 20
+run min_samples_split: 100
+
+Accuracy on the test set: 0.9995
+run n_jobs : 30
+run n_estimators: 100
+run min_samples_leaf: 20
+run min_samples_split: 25
+
+Accuracy on the test set: 0.9996
+run n_jobs : 30
+run n_estimators: 100
+run min_samples_leaf: 20
+run min_samples_split: 50
+
+Accuracy on the test set: 0.9999
+run n_jobs : 30
+run n_estimators: 100
+run min_samples_leaf: 20
+run min_samples_split: 100
+
+Accuracy on the test set: 0.9999
+run n_jobs : 30
+run n_estimators: 100
+run min_samples_leaf: 50
+run min_samples_split: 25
+
+Accuracy on the test set: 0.9999
+run n_jobs : 30
+run n_estimators: 100
+run min_samples_leaf: 50
+run min_samples_split: 50
+
+Accuracy on the test set: 0.9999
+run n_jobs : 30
+run n_estimators: 100
+run min_samples_leaf: 50
+run min_samples_split: 100
+
+Accuracy on the test set: 0.9995
+run n_jobs : 30
+run n_estimators: 200
+run min_samples_leaf: 20
+run min_samples_split: 25
+
+Accuracy on the test set: 0.9996
+run n_jobs : 30
+run n_estimators: 200
+run min_samples_leaf: 20
+run min_samples_split: 50
+
+Accuracy on the test set: 0.9999
+run n_jobs : 30
+run n_estimators: 200
+run min_samples_leaf: 20
+run min_samples_split: 100
+
+Accuracy on the test set: 0.9999
+run n_jobs : 30
+run n_estimators: 200
+run min_samples_leaf: 50
+run min_samples_split: 25
+
+Accuracy on the test set: 0.9999
+run n_jobs : 30
+run n_estimators: 200
+run min_samples_leaf: 50
+run min_samples_split: 50
+
+Accuracy on the test set: 0.9999
+run n_jobs : 30
+run n_estimators: 200
+run min_samples_leaf: 50
+run min_samples_split: 100
+
