@@ -41,7 +41,7 @@ def train_CNN(X_train, y_train, X_val, y_val, X_test, y_test, epochs=6, batch_si
     model.compile(optimizer=adam,
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
-    
+
     save_callback = SaveModelEveryNEpochs(save_interval=save_interval)
 
     model.fit(X_train, y_train,
@@ -50,7 +50,7 @@ def train_CNN(X_train, y_train, X_val, y_val, X_test, y_test, epochs=6, batch_si
             batch_size=batch_size,
             callbacks=[save_callback]
         )
-    
+
     test_loss, test_acc = model.evaluate(X_test, y_test)
     print("Test Set loss: ",test_loss,", Test Set accuracy: ", test_acc)
     return model, test_loss, test_acc
@@ -91,10 +91,12 @@ def train_LSTM(X_train, y_train, X_val, y_val, X_test, y_test,
 
 def train_RF(X_train, y_train, X_val, y_val, X_test, y_test, batch_size=64, n_estimators=200, min_samples_leaf=20, min_samples_split=50, n_jobs=30):
     X_train=pd.DataFrame(X_train,columns=['freq','power'])
-    y_train=pd.DataFrame(y_train,columns=['BH?'])
+    y_train=pd.DataFrame(y_train,columns=['BH?']).values.ravel()
     X_val=pd.DataFrame(X_val,columns=['freq','power'])
-    y_val=pd.DataFrame(y_val,columns=['BH?'])
-    X_test, y_test=pd.DataFrame(X_test,columns=['freq','power']),pd.DataFrame(y_test,columns=['BH?'])
+    y_val=pd.DataFrame(y_val,columns=['BH?']).values.ravel()
+    X_test = pd.DataFrame(X_test, columns=['freq', 'power'])
+    y_test = pd.DataFrame(y_test, columns=['BH?']).values.ravel()
+#    X_test, y_test=pd.DataFrame(X_test,columns=['freq','power']),pd.DataFrame(y_test,columns=['BH?'])  # linea original de Emma
     model = RandomForestClassifier(n_estimators=n_estimators,
                                    min_samples_leaf=min_samples_leaf,
                                    min_samples_split=min_samples_split,

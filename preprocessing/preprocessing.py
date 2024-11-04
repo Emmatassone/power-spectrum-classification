@@ -1,6 +1,6 @@
 import numpy as np
 import os
-from termcolor import colored
+from sklearn.preprocessing import StandardScaler
 
 class Preprocessing:
     def __init__(self, path_BH, path_NS):
@@ -22,6 +22,10 @@ class Preprocessing:
                     for spectrum_file in list_rebinned_PS:
                         binned_powerspectra_file=os.path.join(observation_path, spectrum_file)
                         tmp_spectrum_file = np.loadtxt(binned_powerspectra_file, skiprows=12)
+
+                        # Remove rows where all elements are zero
+                        tmp_spectrum_file = tmp_spectrum_file[~np.all(tmp_spectrum_file == 0, axis=1)]
+                        
                         # Add a new target column to write down whether we have a BH or not
                         self.nodes = tmp_spectrum_file.shape[0]
                         new_column = np.ones(self.nodes) if BH else np.zeros(self.nodes)
@@ -49,7 +53,7 @@ class Preprocessing:
         powerspectra = np.vstack((BH_powerspectra,NS_powerspectra))
         self.shape = powerspectra.shape
 #        powerspectra_scaled = np.hstack([powerspectra[:, 0], StandardScaler().fit_transform(powerspectra[:, 1]), powerspectra[:, 3]])
-        print(colored("Spectra succesfully collected","green"))
+        print("\nSpectra successfully collected\n")
         if table_format:
             return powerspectra
         else:

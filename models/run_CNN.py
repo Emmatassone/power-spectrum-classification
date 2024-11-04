@@ -38,7 +38,7 @@ def main():
     ps=np.copy(powerspectra)
     
     np.random.shuffle(powerspectra)
-    
+
     _ , _ , test_accuracy = train_CNN(
             X_train = powerspectra[ : , :, 0:2 ], y_train = np.mean(powerspectra[ :, : , 2 ], axis=1).reshape(-1,1),
             X_val = ps[ :NUM_FILES//2 , :, 0:2 ], y_val = np.mean(ps[ :NUM_FILES//2 , : , 2 ], axis=1).reshape(-1,1),
@@ -47,7 +47,7 @@ def main():
             epochs = EPOCHS,
             save_interval = EPOCHS
             )
-    
+       
     end_time = time.time()
     
     computing_time=(end_time - start_time)/3600
@@ -59,6 +59,6 @@ def main():
         f.write(f"run feature number : {NUM_FEATURES}\n")
         f.write(f"run batch size : {BATCH_SIZE}\n")
         f.write(f"run epoch number: {EPOCHS}\n\n")
-    
+
 if __name__ == "__main__":
     main()

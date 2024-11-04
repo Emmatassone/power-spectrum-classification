@@ -22,7 +22,7 @@ def main():
     BATCH_SIZE = int(args.batch_size)
     EPOCHS = int(args.epochs)
 
-    print(colored(f"Running RNN with batch size = {BATCH_SIZE} and number of epochs={EPOCHS}","red"))
+    print(colored(f"\nRunning RNN with batch size = {BATCH_SIZE} and number of epochs = {EPOCHS}\n","red"))
     start_time = time.time()
     
     path_BH = os.path.join('data', 'BH')
@@ -31,29 +31,46 @@ def main():
     preprocessor = Preprocessing(path_BH, path_NS)
     powerspectra = preprocessor.collect_all_NS_BH_data()
     
-    powerspectra  = np.delete(powerspectra , 2, axis=2)
+    powerspectra = np.delete(powerspectra , 2, axis=2)
     
     NODES = preprocessor.nodes
     NUM_FEATURES = powerspectra.shape[2]-1
     NUM_FILES = powerspectra.shape[0]
     
-    ps=np.copy(powerspectra)
-    
     np.random.shuffle(powerspectra)
-    _ , _ , test_accuracy = train_LSTM(
-                                                X_train = powerspectra[ : , :, 0:2 ], y_train = np.mean(powerspectra[ :, : , 2 ], axis=1).reshape(-1,1),
-                                                X_val = ps[ :NUM_FILES//2 , :, 0:2 ], y_val = np.mean(ps[ :NUM_FILES//2 , : , 2 ], axis=1).reshape(-1,1),
-                                                X_test = ps[ NUM_FILES//2: , :, 0:2 ], y_test =  np.mean( ps[ NUM_FILES//2:, : , 2 ], axis=1).reshape(-1,1),
-                                                time_steps = NODES,
-                                                batch_size = BATCH_SIZE,
-                                                num_features = NUM_FEATURES,
-                                                epochs = EPOCHS
-                                                )
     
+    train_end = int(0.8 * NUM_FILES)
+    val_end = int(0.9 * NUM_FILES)
+
+    # Split the data
+    X_train = powerspectra[:train_end, :, 0:2]
+    y_train = np.mean(powerspectra[:train_end, :, 2], axis=1).reshape(-1, 1)
+
+    X_val = powerspectra[train_end:val_end, :, 0:2]
+    y_val = np.mean(powerspectra[train_end:val_end, :, 2], axis=1).reshape(-1, 1)
+
+    X_test = powerspectra[val_end:, :, 0:2]
+    y_test = np.mean(powerspectra[val_end:, :, 2], axis=1).reshape(-1, 1)
+    
+    # Train the LSTM model
+    _, _, test_accuracy = train_LSTM(
+            X_train=X_train,
+            y_train=y_train,
+            X_val=X_val,
+            y_val=y_val,
+            X_test=X_test,
+            y_test=y_test,
+            time_steps=NODES,
+            batch_size=BATCH_SIZE,
+            num_features=NUM_FEATURES,
+            epochs=EPOCHS
+        )
+
+        
     end_time = time.time()
     computing_time=(end_time - start_time)/3600
-    print("Total time taken: {} hours".format(round(computing_time,2)))
-    
+    print(colored("\nTotal time taken: {} hours\n".format(round(computing_time,2)), "green"))
+
     accuracy_filename = './models/metrics/RNN_accuracies.txt'
     with open(accuracy_filename, 'a') as f:
         f.write(f"Accuracy on the test set: {test_accuracy:.4f}\n")
@@ -61,8 +78,7 @@ def main():
         f.write(f"run feature number : {NUM_FEATURES}\n")
         f.write(f"run batch size : {BATCH_SIZE}\n")
         f.write(f"run epoch number: {EPOCHS}\n\n")
-    
-
+  
 if __name__ == "__main__":
     main()
 

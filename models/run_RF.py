@@ -30,7 +30,7 @@ def main():
     MIN_SAMPLES_SPLIT = int(args.min_samples_split) if args.min_samples_split else 50
 
     # Example usage
-    print(colored(f"Running Random Forest Model with batch size={BATCH_SIZE}, number of threads={N_JOBS}", "red"))
+    print(colored(f"\nRunning Random Forest Model with batch size={BATCH_SIZE}, number of threads={N_JOBS}\n", "red"))
     start_time = time.time()
     
     path_BH = os.path.join('data', 'BH')
@@ -38,9 +38,9 @@ def main():
     before_processing_time=time.time()
     preprocessor = Preprocessing(path_BH, path_NS)
     powerspectra = preprocessor.collect_all_NS_BH_data(table_format=True)
-    after_processing_time=time.time()
+    after_processing_time = time.time()
     
-    print(colored("Time taken to process the data: {} seconds".format(round(after_processing_time-before_processing_time, 2)), "green"))
+    print(colored("\nTime taken to process the data: {} seconds\n".format(round(after_processing_time-before_processing_time, 2)), "green"))
     
     # Delete error column if there is one
     powerspectra = np.delete(powerspectra, 2, axis=1)
@@ -53,8 +53,9 @@ def main():
     print(powerspectra[:, 2].shape)
     
     # Train the Random Forest model
+    print("\nCalling train_RF...\n")
     model = train_RF(   
-        X_train=powerspectra[:, 0:2], 
+        X_train=powerspectra[:, 0:2],
         y_train=powerspectra[:, 2],
         X_val=ps[:NUM_FILES//2, 0:2], 
         y_val=ps[:NUM_FILES//2, 2],
@@ -85,10 +86,10 @@ def main():
         f.write(f"run n_estimators: {N_ESTIMATORS}\n")
         f.write(f"run min_samples_leaf: {MIN_SAMPLES_LEAF}\n")
         f.write(f"run min_samples_split: {MIN_SAMPLES_SPLIT}\n\n")
+
     end_time = time.time()
-    
     computing_time = (end_time - start_time) / 3600
-    print("Total time taken: {} hours".format(round(computing_time, 2)))
+    print(colored("\n Total time taken: {} hours\n".format(round(computing_time, 2)), "green"))
 
 if __name__ == "__main__":
     main()

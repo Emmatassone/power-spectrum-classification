@@ -1,0 +1,18 @@
+Accuracy on the test set: 0.9878
+run timesteps number : 327
+run feature number : 2
+run batch size : 64
+run epoch number: 50
+
+Accuracy on the test set: 0.5000
+run timesteps number : 32755
+run feature number : 2
+run batch size : 64
+run epoch number: 3
+
+Accuracy on the test set: 1.0000
+run timesteps number : 32755
+run feature number : 2
+run batch size : 64
+run epoch number: 3
+

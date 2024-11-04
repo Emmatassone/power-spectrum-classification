@@ -51,10 +51,13 @@ def main():
         
     # Determine which model to run based on the flags
     if args.RNN:
+        print(f"Ejecutando RNN con argumentos: {common_args}")
         run_script('models/run_RNN.py', common_args)
     elif args.CNN:
+        print(f"Ejecutando CNN con argumentos: {common_args}")
         run_script('models/run_CNN.py', common_args)
     elif args.RF:
+        print(f"Ejecutando RF con argumentos: {common_args}")
         run_script('models/run_RF.py', common_args)
 
 if __name__ == "__main__":
